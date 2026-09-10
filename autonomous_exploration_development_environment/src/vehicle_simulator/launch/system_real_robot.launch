@@ -1,0 +1,51 @@
+<launch>
+
+  <arg name="cameraOffsetZ" default="0"/>
+  <arg name="sensorOffsetX" default="0"/>
+  <arg name="sensorOffsetY" default="0"/>
+  <arg name="vehicleX" default="0"/>
+  <arg name="vehicleY" default="0"/>
+  <arg name="vehicleLength" default="0.6"/>
+  <arg name="vehicleWidth" default="0.6"/>
+  <arg name="maxSpeed" default="0.3"/>
+  <arg name="autonomyMode" default="false"/>
+  <arg name="autonomySpeed" default="0.3"/>
+  <arg name="checkTerrainConn" default="false"/>
+  <arg name="robotPrefix" default="a"/>
+  <arg name="rviz" default="false"/>
+
+  <include file="$(find loam_interface)/launch/dcl_interface.launch">
+    <arg name="robotPrefix" value="$(arg robotPrefix)"/>
+    <arg name="worldFrame" value="map"/>
+    <arg name="childFrame" value="sensor"/>
+  </include>
+
+  <!-- <include file="$(find ps3joy)/launch/ps3.launch" /> -->
+
+  <include file="$(find local_planner)/launch/local_planner.launch" >
+    <arg name="cameraOffsetZ" value="$(arg cameraOffsetZ)"/>
+    <arg name="sensorOffsetX" value="$(arg sensorOffsetX)"/>
+    <arg name="sensorOffsetY" value="$(arg sensorOffsetY)"/>
+    <arg name="goalX" value="$(arg vehicleX)"/>
+    <arg name="goalY" value="$(arg vehicleY)"/>
+    <arg name="vehicleLength" value="$(arg vehicleLength)"/>
+    <arg name="vehicleWidth" value="$(arg vehicleWidth)"/>
+    <arg name="maxSpeed" value="$(arg maxSpeed)"/>
+    <arg name="autonomyMode" value="$(arg autonomyMode)"/>
+    <arg name="autonomySpeed" value="$(arg autonomySpeed)"/>
+  </include>
+
+  <include file="$(find terrain_analysis)/launch/terrain_analysis.launch" />
+
+  <include file="$(find terrain_analysis_ext)/launch/terrain_analysis_ext.launch" >
+    <arg name="checkTerrainConn" value="$(arg checkTerrainConn)"/>
+  </include>
+
+  <include file="$(find sensor_scan_generation)/launch/sensor_scan_generation.launch" />
+
+  <group if="$(arg rviz)">
+    <node launch-prefix="nice" pkg="rviz" type="rviz" name="rvizGA"
+          args="-d $(find vehicle_simulator)/rviz/vehicle_simulator.rviz" respawn="true"/>
+  </group>
+
+</launch>

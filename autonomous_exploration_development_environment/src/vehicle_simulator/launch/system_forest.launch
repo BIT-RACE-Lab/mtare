@@ -1,0 +1,17 @@
+<launch>
+
+  <arg name="world_name" default="forest"/>
+  <arg name="rviz" default="false"/>
+  <arg name="vis_tools" default="true"/>
+  <arg name="checkTerrainConn" default="true"/>
+  <arg name="robot_id" default="0"/>
+
+  <include file="$(find vehicle_simulator)/launch/system.launch" >
+    <arg name="world_name" value="$(arg world_name)"/>
+    <arg name="rviz" value="$(arg rviz)"/>
+    <arg name="vis_tools" value="$(arg vis_tools)"/>
+    <arg name="checkTerrainConn" value="$(arg checkTerrainConn)"/>
+    <arg name="robot_id" value="$(arg robot_id)"/>
+  </include>
+  
+</launch>

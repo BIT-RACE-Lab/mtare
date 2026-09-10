@@ -1,0 +1,23 @@
+# ROS、catkin 和 colcon 可再生构建产物
+build/
+devel/
+install/
+logs/
+log/
+.catkin_tools/
+.colcon/
+
+
+# Python、测试和编辑器缓存
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ros1_bridge 预定由 Git 子模块管理，不能忽略 mtare/ros1_bridge 本身。
+
+# 仿真场景资源不随实车部署仓库提交
+/autonomous_exploration_development_environment/src/vehicle_simulator/mesh/

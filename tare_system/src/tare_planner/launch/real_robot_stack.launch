@@ -1,0 +1,61 @@
+<launch>
+    <arg name="robot_prefix" default="a"/>
+    <arg name="robot_id" default="0"/>
+    <arg name="robot_num" default="2"/>
+    <arg name="robot_prefixes" default="[a, b]"/>
+    <arg name="scenario" default="indoor"/>
+    <arg name="fast_lio_config" default="$(find dcl_slam)/config/dcl_fast_lio_mid360.yaml"/>
+    <arg name="start_livox" default="true"/>
+    <arg name="rviz" default="false"/>
+    <arg name="start_scout" default="false"/>
+    <arg name="can_port" default="can0"/>
+    <arg name="autonomy_mode" default="false"/>
+    <arg name="max_speed" default="0.3"/>
+
+    <group if="$(arg start_scout)">
+        <include file="$(find scout_base)/launch/scout_mini_base.launch">
+            <arg name="port_name" value="$(arg can_port)"/>
+            <arg name="pub_tf" value="false"/>
+            <arg name="odom_topic_name" value="/scout/odom"/>
+        </include>
+    </group>
+
+    <!-- Keep velocity output disabled until the chassis and emergency stop
+         have been verified on the real platform. -->
+    <arg name="autonomy_speed" default="0.3"/>
+    <arg name="vehicle_length" default="0.6"/>
+    <arg name="vehicle_width" default="0.6"/>
+
+    <!-- Start this stack only after parameter_bridge is running. The planner
+         remains gated until both robots provide stable DCL global outputs. -->
+    <include if="$(arg start_livox)"
+             file="$(find livox_ros_driver2)/launch_ROS1/msg_MID360.launch">
+        <arg name="robotPrefix" value="$(arg robot_prefix)"/>
+        <arg name="rviz_enable" value="false"/>
+    </include>
+
+    <include file="$(find dcl_slam)/launch/single_ugv.launch">
+        <arg name="lioType" value="2"/>
+        <arg name="robotPrefix" value="$(arg robot_prefix)"/>
+        <arg name="number_of_robots" value="$(arg robot_num)"/>
+        <arg name="fast_lio_config" value="$(arg fast_lio_config)"/>
+    </include>
+
+    <include file="$(find vehicle_simulator)/launch/system_real_robot.launch">
+        <arg name="robotPrefix" value="$(arg robot_prefix)"/>
+        <arg name="vehicleLength" value="$(arg vehicle_length)"/>
+        <arg name="vehicleWidth" value="$(arg vehicle_width)"/>
+        <arg name="maxSpeed" value="$(arg max_speed)"/>
+        <arg name="autonomyMode" value="$(arg autonomy_mode)"/>
+        <arg name="autonomySpeed" value="$(arg autonomy_speed)"/>
+        <arg name="rviz" value="false"/>
+    </include>
+
+    <include file="$(find tare_planner)/launch/explore_real_robot.launch">
+        <arg name="scenario" value="$(arg scenario)"/>
+        <arg name="robot_id" value="$(arg robot_id)"/>
+        <arg name="robot_num" value="$(arg robot_num)"/>
+        <arg name="robot_prefixes" value="$(arg robot_prefixes)"/>
+        <arg name="rviz" value="$(arg rviz)"/>
+    </include>
+</launch>

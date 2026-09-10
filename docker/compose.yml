@@ -1,0 +1,19 @@
+services:
+  mtare:
+    image: foxy-noetic:amd64
+    platform: linux/amd64
+    container_name: mtare-amd64
+    network_mode: host
+    pull_policy: never
+
+    stdin_open: true
+    tty: true
+
+    environment:
+      DISPLAY: ${DISPLAY}
+
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ../../mtare:/root/mtare
+
+    working_dir: /root

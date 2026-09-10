@@ -1,0 +1,33 @@
+<launch>
+    <arg name="scenario" default="indoor"/>
+    <arg name="robot_id" default="0"/>
+    <arg name="robot_num" default="2"/>
+    <arg name="robot_prefixes" default="[a, b]"/>
+    <arg name="test_id" default="00021000"/>
+    <arg name="rviz" default="false"/>
+    <arg name="rosbag_record" default="false"/>
+    <arg name="use_boundary" default="false"/>
+    <arg name="alignment_stable_duration" default="2.0"/>
+
+    <!-- Keep each robot on its own ROS1 master.  Cross-robot coordination and
+         DCL messages are the only topics transported by ROS1/ROS2 bridges. -->
+    <include file="$(find tare_planner)/launch/explore.launch">
+        <arg name="scenario" value="$(arg scenario)"/>
+        <arg name="robot_id" value="$(arg robot_id)"/>
+        <arg name="robot_num" value="$(arg robot_num)"/>
+        <arg name="test_id" value="$(arg test_id)"/>
+        <arg name="rviz" value="$(arg rviz)"/>
+        <arg name="rosbag_record" value="$(arg rosbag_record)"/>
+        <arg name="use_boundary" value="$(arg use_boundary)"/>
+        <arg name="auto_start" value="false"/>
+        <arg name="rotate_keypose" value="false"/>
+    </include>
+
+    <node pkg="tare_planner" type="dcl_exploration_gate.py"
+          name="dcl_exploration_gate" output="screen" required="true">
+        <param name="robot_num" value="$(arg robot_num)"/>
+        <rosparam param="robot_prefixes" subst_value="true">$(arg robot_prefixes)</rosparam>
+        <param name="stable_duration" value="$(arg alignment_stable_duration)"/>
+        <param name="start_topic" value="/start_exploration"/>
+    </node>
+</launch>

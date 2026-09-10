@@ -1,0 +1,38 @@
+# Selective ROS1 <-> ROS2 bridge for a two-robot hardware deployment.
+#
+# Everything not listed here remains on the robot's local ROS1 master. In
+# particular, raw LiDAR/IMU, registered clouds, local maps, paths and control
+# commands are never sent over DDS.
+topics:
+  # M-TARE coordination data.
+  - {topic: /wheeled0/position, type: geometry_msgs/msg/PointStamped, queue_size: 1}
+  - {topic: /wheeled1/position, type: geometry_msgs/msg/PointStamped, queue_size: 1}
+  - {topic: /wheeled0/exploration_info, type: tare_msgs/msg/ExplorationInfo, queue_size: 1}
+  - {topic: /wheeled1/exploration_info, type: tare_msgs/msg/ExplorationInfo, queue_size: 1}
+  - {topic: /wheeled0/exploration_finish, type: std_msgs/msg/Bool, queue_size: 1}
+  - {topic: /wheeled1/exploration_finish, type: std_msgs/msg/Bool, queue_size: 1}
+
+  # DCL-SLAM cross-robot descriptors and loop closures.
+  # Descriptors are durable because a robot may join after the peer published
+  # its first stationary accumulated frame.
+  - {topic: /a/distributedMapping/globalDescriptors, type: dcl_slam_msgs/msg/GlobalDescriptor, queue_size: 10, transient_local: true}
+  - {topic: /b/distributedMapping/globalDescriptors, type: dcl_slam_msgs/msg/GlobalDescriptor, queue_size: 10, transient_local: true}
+  - {topic: /a/distributedMapping/loopInfo, type: dcl_slam_msgs/msg/LoopInfo, queue_size: 10}
+  - {topic: /b/distributedMapping/loopInfo, type: dcl_slam_msgs/msg/LoopInfo, queue_size: 10}
+
+  # DCL-SLAM distributed optimizer state.
+  - {topic: /a/distributedMapping/optimizationState, type: std_msgs/msg/Int8, queue_size: 50}
+  - {topic: /b/distributedMapping/optimizationState, type: std_msgs/msg/Int8, queue_size: 50}
+  - {topic: /a/distributedMapping/rotationEstimateState, type: std_msgs/msg/Int8, queue_size: 50}
+  - {topic: /b/distributedMapping/rotationEstimateState, type: std_msgs/msg/Int8, queue_size: 50}
+  - {topic: /a/distributedMapping/poseEstimateState, type: std_msgs/msg/Int8, queue_size: 50}
+  - {topic: /b/distributedMapping/poseEstimateState, type: std_msgs/msg/Int8, queue_size: 50}
+  - {topic: /a/distributedMapping/neighborRotationEstimates, type: dcl_slam_msgs/msg/NeighborEstimate, queue_size: 50}
+  - {topic: /b/distributedMapping/neighborRotationEstimates, type: dcl_slam_msgs/msg/NeighborEstimate, queue_size: 50}
+  - {topic: /a/distributedMapping/neighborPoseEstimates, type: dcl_slam_msgs/msg/NeighborEstimate, queue_size: 50}
+  - {topic: /b/distributedMapping/neighborPoseEstimates, type: dcl_slam_msgs/msg/NeighborEstimate, queue_size: 50}
+
+  # Planner interlock. The ROS2 samples are durable and the ROS1 outputs are
+  # latched, so restarting a bridge does not spuriously release the planner.
+  - {topic: /a/dcl_slam/alignment_ready, type: std_msgs/msg/Bool, queue_size: 1, transient_local: true}
+  - {topic: /b/dcl_slam/alignment_ready, type: std_msgs/msg/Bool, queue_size: 1, transient_local: true}

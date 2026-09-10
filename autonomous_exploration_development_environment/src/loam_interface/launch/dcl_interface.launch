@@ -1,0 +1,31 @@
+<launch>
+  <arg name="robotPrefix" default="a"/>
+  <arg name="worldFrame" default="map"/>
+  <arg name="childFrame" default="sensor"/>
+  <arg name="keyPoseDistance" default="1.0"/>
+  <arg name="keyPoseAngle" default="0.2"/>
+  <arg name="readinessStableDuration" default="2.0"/>
+  <arg name="inputTimeout" default="1.0"/>
+
+  <!-- DCL already converted both inputs into the shared global coordinate system. -->
+  <node pkg="loam_interface" type="loamInterface" name="dclInterface" output="screen" required="true">
+    <param name="stateEstimationTopic" type="string" value="/$(arg robotPrefix)/odometry_global"/>
+    <param name="registeredScanTopic" type="string" value="/$(arg robotPrefix)/cloud_registered_global"/>
+    <param name="outputStateEstimationTopic" type="string" value="/state_estimation"/>
+    <param name="outputRegisteredScanTopic" type="string" value="/registered_scan"/>
+    <param name="keyPoseTopic" type="string" value="/key_pose_to_map"/>
+    <param name="alignmentReadyTopic" type="string" value="/$(arg robotPrefix)/dcl_slam/alignment_ready"/>
+    <param name="worldFrame" type="string" value="$(arg worldFrame)"/>
+    <param name="childFrame" type="string" value="$(arg childFrame)"/>
+    <param name="flipStateEstimation" type="bool" value="false"/>
+    <param name="flipRegisteredScan" type="bool" value="false"/>
+    <param name="sendTF" type="bool" value="true"/>
+    <param name="reverseTF" type="bool" value="false"/>
+    <param name="publishKeyPose" type="bool" value="true"/>
+    <param name="estimateTwist" type="bool" value="true"/>
+    <param name="keyPoseDistance" type="double" value="$(arg keyPoseDistance)"/>
+    <param name="keyPoseAngle" type="double" value="$(arg keyPoseAngle)"/>
+    <param name="readinessStableDuration" type="double" value="$(arg readinessStableDuration)"/>
+    <param name="inputTimeout" type="double" value="$(arg inputTimeout)"/>
+  </node>
+</launch>

@@ -1,0 +1,4 @@
+<launch>
+    <arg name="bridge_config" default="bridge.yaml"/>
+    <rosparam file="$(find tare_planner)/config/$(arg bridge_config)"/>
+</launch>

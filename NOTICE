@@ -1,0 +1,41 @@
+M-TARE Physical Two-Robot Integration
+
+This repository integrates the M-TARE exploration planner with DCL-SLAM,
+Livox MID360, terrain analysis, local planning, and a customized ROS1/ROS2
+bridge. Repository-level integration scripts, configuration, and documentation
+are provided under the Apache License, Version 2.0; see LICENSE.
+
+M-TARE and TARE Planner
+  Original author: Chao Cao and upstream contributors.
+  https://github.com/caochao39/mtare_planner
+  https://github.com/caochao39/tare_planner
+  Sources are included under tare_system/. Preserve upstream copyright
+  notices and license declarations. The tare_planner package.xml declares BSD;
+  this repository's Apache license does not replace upstream license terms.
+
+Autonomous Exploration Development Environment
+  https://github.com/HongbiaoZ/autonomous_exploration_development_environment
+  Sources under autonomous_exploration_development_environment/ retain their
+  original copyright notices and license terms.
+
+DCL-SLAM
+  The dcl_slam submodule includes DCL-SLAM, DCL-FAST-LIO, Livox ROS Driver 2,
+  and third-party dependencies. See dcl_slam/NOTICE, dcl_slam/LICENSE, and
+  the license and attribution files in each bundled component.
+
+Livox-SDK2
+  Sources under Livox-SDK2/ retain their original copyright and license terms.
+  https://github.com/Livox-SDK/Livox-SDK2
+
+ROS1/ROS2 bridge
+  The ros1_bridge submodule is based on the ROS project's ros1_bridge.
+  Its original copyright, license, and attribution notices remain applicable.
+
+Google OR-Tools and other bundled libraries
+  OR-Tools is included under tare_system/src/tare_planner/or-tools/;
+  see its LICENSE-2.0.txt. Other bundled libraries retain their own terms.
+
+This notice acknowledges upstream work and describes the scope of the
+repository-level license. It does not relicense third-party source code.
+Refer to each component's source headers, package metadata, LICENSE, COPYING,
+and NOTICE files for its applicable terms and attribution.
