@@ -1,7 +1,7 @@
 [submodule "dcl_slam"]
 	path = dcl_slam
-	url = git@github.com:BIT-Jiang-Group/dcl_slam.git
+	url = git@github.com:BIT-RACE-Lab/dcl_slam.git
 [submodule "ros1_bridge"]
 	path = ros1_bridge
-	url = git@github.com:BIT-Jiang-Group/ros1_bridge.git
+	url = git@github.com:BIT-RACE-Lab/ros1_bridge.git
 	branch = main

@@ -59,7 +59,7 @@ git clone https://github.com/Livox-SDK/Livox-SDK2.git
 ```bash
 cd ..
 
-git clone https://github.com/BIT-Jiang-Group/scout_driver.git
+git clone https://github.com/BIT-RACE-Lab/scout_driver.git
 ```
 
 ## 2. 准备运行环境
@@ -83,7 +83,7 @@ docker compose -f docker/compose.scout.yml up -d
 docker compose -f docker/compose.yml up -d
 ```
 
-Compose 使用本地镜像 `foxy-noetic:amd64`，并设置 `pull_policy: never`。启动前需自行准备该镜像，容器镜像的下载请参考[foxy-noetic-docker-image](https://github.com/BIT-Jiang-Group/foxy-noetic-docker-image)
+Compose 使用本地镜像 `foxy-noetic:amd64`，并设置 `pull_policy: never`。启动前需自行准备该镜像，容器镜像的下载请参考[foxy-noetic-docker-image](https://github.com/BIT-RACE-Lab/foxy-noetic-docker-image)
 
 容器名称为 `mtare-amd64`，源码挂载到 `/root/mtare`。配置中的 `../../mtare` 相对于 `docker/compose.yml` 所在目录解析；若本地仓库目录不叫 `mtare`，需调整该挂载路径。挂载源码的修改会同步到宿主机，系统依赖则安装在容器中，重建容器后可能需要重新安装。
 

@@ -56,7 +56,7 @@ The chassis driver is maintained separately. The example here uses a Scout Mini.
 
 ```bash
 cd ..
-git clone https://github.com/BIT-Jiang-Group/scout_driver.git
+git clone https://github.com/BIT-RACE-Lab/scout_driver.git
 ```
 
 ## 2. Prepare the Runtime Environment
@@ -80,7 +80,7 @@ docker compose -f docker/compose.scout.yml up -d
 docker compose -f docker/compose.yml up -d
 ```
 
-Compose uses the local image `foxy-noetic:amd64` with `pull_policy: never`. Prepare the image before starting the container; see the [image repository](https://github.com/BIT-Jiang-Group/foxy-noetic-docker-image).
+Compose uses the local image `foxy-noetic:amd64` with `pull_policy: never`. Prepare the image before starting the container; see the [image repository](https://github.com/BIT-RACE-Lab/foxy-noetic-docker-image).
 
 The container is named `mtare-amd64`, with sources mounted at `/root/mtare`. The `../../mtare` mount is resolved relative to the Compose file's directory. Adjust it if your local checkout has a different directory name. Source edits are shared with the host; system dependencies are installed inside the container and may need reinstalling after container recreation.
 
