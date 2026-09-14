@@ -1,9 +1,14 @@
 <launch>
+  <arg name="adjacentRange" default="4.25"/>
 
   <arg name="sensorOffsetX" default="0"/>
   <arg name="sensorOffsetY" default="0"/>
   <arg name="cameraOffsetZ" default="0"/>
   <arg name="twoWayDrive" default="true"/>
+  <!-- maxYawRate is in degrees/second. -->
+  <arg name="maxYawRate" default="90.0"/>
+  <arg name="yawRateGain" default="7.5"/>
+  <arg name="stopYawRateGain" default="7.5"/>
   <arg name="maxSpeed" default="2.0"/>
   <arg name="vehicleLength" default="0.6"/>
   <arg name="vehicleWidth" default="0.6"/>
@@ -25,7 +30,7 @@
     <param name="useTerrainAnalysis" type="bool" value="true" />
     <param name="checkObstacle" type="bool" value="true" />
     <param name="checkRotObstacle" type="bool" value="false" />
-    <param name="adjacentRange" type="double" value="4.25" />
+    <param name="adjacentRange" type="double" value="$(arg adjacentRange)" />
     <param name="obstacleHeightThre" type="double" value="0.15" />
     <param name="groundHeightThre" type="double" value="0.1" />
     <param name="costHeightThre" type="double" value="0.1" />
@@ -61,9 +66,9 @@
     <param name="pubSkipNum" type="int" value="1" />
     <param name="twoWayDrive" value="$(arg twoWayDrive)" />
     <param name="lookAheadDis" type="double" value="0.5" />
-    <param name="yawRateGain" type="double" value="7.5" />
-    <param name="stopYawRateGain" type="double" value="7.5" />
-    <param name="maxYawRate" type="double" value="90.0" />
+    <param name="yawRateGain" type="double" value="$(arg yawRateGain)" />
+    <param name="stopYawRateGain" type="double" value="$(arg stopYawRateGain)" />
+    <param name="maxYawRate" type="double" value="$(arg maxYawRate)" />
     <param name="maxSpeed" value="$(arg maxSpeed)" />
     <param name="maxAccel" type="double" value="2.5" />
     <param name="switchTimeThre" type="double" value="1.0" />

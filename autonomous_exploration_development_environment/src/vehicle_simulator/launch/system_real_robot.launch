@@ -8,6 +8,11 @@
   <arg name="vehicleLength" default="0.6"/>
   <arg name="vehicleWidth" default="0.6"/>
   <arg name="maxSpeed" default="0.3"/>
+  <arg name="adjacentRange" default="4.25"/>
+  <arg name="twoWayDrive" default="true"/>
+  <arg name="maxYawRate" default="90.0"/>
+  <arg name="yawRateGain" default="7.5"/>
+  <arg name="stopYawRateGain" default="7.5"/>
   <arg name="autonomyMode" default="false"/>
   <arg name="autonomySpeed" default="0.3"/>
   <arg name="checkTerrainConn" default="false"/>
@@ -23,6 +28,11 @@
   <!-- <include file="$(find ps3joy)/launch/ps3.launch" /> -->
 
   <include file="$(find local_planner)/launch/local_planner.launch" >
+    <arg name="adjacentRange" value="$(arg adjacentRange)"/>
+    <arg name="twoWayDrive" value="$(arg twoWayDrive)"/>
+    <arg name="maxYawRate" value="$(arg maxYawRate)"/>
+    <arg name="yawRateGain" value="$(arg yawRateGain)"/>
+    <arg name="stopYawRateGain" value="$(arg stopYawRateGain)"/>
     <arg name="cameraOffsetZ" value="$(arg cameraOffsetZ)"/>
     <arg name="sensorOffsetX" value="$(arg sensorOffsetX)"/>
     <arg name="sensorOffsetY" value="$(arg sensorOffsetY)"/>

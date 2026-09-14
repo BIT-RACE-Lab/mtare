@@ -4,6 +4,8 @@
     <arg name="robot_num" default="2"/>
     <arg name="robot_prefixes" default="[a, b]"/>
     <arg name="scenario" default="indoor"/>
+    <arg name="viewpoint_collision_z_plus" default="0.3"/>
+    <arg name="viewpoint_collision_z_minus" default="0.25"/>
     <arg name="fast_lio_config" default="$(find dcl_slam)/config/dcl_fast_lio_mid360.yaml"/>
     <arg name="start_livox" default="true"/>
     <arg name="rviz" default="false"/>
@@ -11,6 +13,13 @@
     <arg name="can_port" default="can0"/>
     <arg name="autonomy_mode" default="false"/>
     <arg name="max_speed" default="0.3"/>
+    <!-- Local planner point-cloud radius and base path evaluation range (m). -->
+    <arg name="adjacentRange" default="0.75"/>
+    <arg name="twoWayDrive" default="false"/>
+    <!-- maxYawRate is in degrees/second. -->
+    <arg name="maxYawRate" default="20.0"/>
+    <arg name="yawRateGain" default="3.0"/>
+    <arg name="stopYawRateGain" default="3.0"/>
 
     <group if="$(arg start_scout)">
         <include file="$(find scout_base)/launch/scout_mini_base.launch">
@@ -23,8 +32,8 @@
     <!-- Keep velocity output disabled until the chassis and emergency stop
          have been verified on the real platform. -->
     <arg name="autonomy_speed" default="0.3"/>
-    <arg name="vehicle_length" default="0.6"/>
-    <arg name="vehicle_width" default="0.6"/>
+    <arg name="vehicle_length" default="0.9"/>
+    <arg name="vehicle_width" default="0.9"/>
 
     <!-- Start this stack only after parameter_bridge is running. The planner
          remains gated until both robots provide stable DCL global outputs. -->
@@ -42,6 +51,11 @@
     </include>
 
     <include file="$(find vehicle_simulator)/launch/system_real_robot.launch">
+        <arg name="adjacentRange" value="$(arg adjacentRange)"/>
+        <arg name="twoWayDrive" value="$(arg twoWayDrive)"/>
+        <arg name="maxYawRate" value="$(arg maxYawRate)"/>
+        <arg name="yawRateGain" value="$(arg yawRateGain)"/>
+        <arg name="stopYawRateGain" value="$(arg stopYawRateGain)"/>
         <arg name="robotPrefix" value="$(arg robot_prefix)"/>
         <arg name="vehicleLength" value="$(arg vehicle_length)"/>
         <arg name="vehicleWidth" value="$(arg vehicle_width)"/>
@@ -52,6 +66,8 @@
     </include>
 
     <include file="$(find tare_planner)/launch/explore_real_robot.launch">
+        <arg name="viewpoint_collision_z_plus" value="$(arg viewpoint_collision_z_plus)"/>
+        <arg name="viewpoint_collision_z_minus" value="$(arg viewpoint_collision_z_minus)"/>
         <arg name="scenario" value="$(arg scenario)"/>
         <arg name="robot_id" value="$(arg robot_id)"/>
         <arg name="robot_num" value="$(arg robot_num)"/>

@@ -1,5 +1,7 @@
 <launch>
     <arg name="scenario" default="indoor"/>
+    <arg name="viewpoint_collision_z_plus" default=""/>
+    <arg name="viewpoint_collision_z_minus" default=""/>
     <arg name="robot_id" default="0"/>
     <arg name="robot_num" default="2"/>
     <arg name="robot_prefixes" default="[a, b]"/>
@@ -13,6 +15,8 @@
          DCL messages are the only topics transported by ROS1/ROS2 bridges. -->
     <include file="$(find tare_planner)/launch/explore.launch">
         <arg name="scenario" value="$(arg scenario)"/>
+        <arg name="viewpoint_collision_z_plus" value="$(arg viewpoint_collision_z_plus)"/>
+        <arg name="viewpoint_collision_z_minus" value="$(arg viewpoint_collision_z_minus)"/>
         <arg name="robot_id" value="$(arg robot_id)"/>
         <arg name="robot_num" value="$(arg robot_num)"/>
         <arg name="test_id" value="$(arg test_id)"/>

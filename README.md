@@ -229,14 +229,28 @@ Extra arguments use `name:=value` syntax and are forwarded to [real_robot_stack.
 | `autonomy_mode` | `false` | Autonomous local-control mode |
 | `max_speed` | `0.3` | Maximum speed in m/s |
 | `autonomy_speed` | `0.3` | Autonomous-mode speed in m/s |
-| `vehicle_length` | `0.6` | Vehicle length in meters |
-| `vehicle_width` | `0.6` | Vehicle width in meters |
+| `vehicle_length` | `0.9` | Vehicle length in meters |
+| `vehicle_width` | `0.9` | Vehicle width in meters |
+| `adjacentRange` | `0.75` | Local-planner point-cloud radius and base path evaluation range in meters |
+| `twoWayDrive` | `false` | Allow both forward and reverse driving |
+| `maxYawRate` | `20.0` | Maximum yaw rate in degrees/s |
+| `yawRateGain` | `3.0` | Steering control gain while moving |
+| `stopYawRateGain` | `3.0` | Steering control gain when stopped or moving slowly |
+| `viewpoint_collision_z_plus` | `0.3` | Collision margin above each viewpoint in meters |
+| `viewpoint_collision_z_minus` | `0.25` | Collision margin below each viewpoint in meters |
 
 Example:
 
 ```bash
-./scripts/run_real.sh a rviz:=true scenario:=indoor max_speed:=0.3 \
-  vehicle_length:=0.6 vehicle_width:=0.6
+./scripts/run_real.sh a autonomy_mode:=true
+```
+
+These defaults come from the top-level physical-robot entry point, `real_robot_stack.launch`; launching lower-level files directly may use different defaults. Argument names are case-sensitive, including `adjacentRange` and `maxYawRate`.
+
+`viewpoint_collision_z_plus` and `viewpoint_collision_z_minus` are distances above and below each viewpoint, not global point-cloud height filters. The physical-robot entry point overrides the scenario YAML values for `kViewPointCollisionMarginZPlus` and `kViewPointCollisionMarginZMinus` by default. Pass an empty string for either argument to retain its scenario setting:
+
+```bash
+./scripts/run_real.sh a viewpoint_collision_z_plus:="" viewpoint_collision_z_minus:=""
 ```
 
 Configure vehicle dimensions, LiDAR extrinsics, and control parameters for the actual platform. Add `autonomy_mode:=true` after validating the control interface and stopping behavior.

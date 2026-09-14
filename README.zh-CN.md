@@ -235,14 +235,28 @@ Enter 提示用于人工同步，不检测 DDS 连通性。探索门控节点等
 | `autonomy_mode` | `false` | 局部控制自主模式 |
 | `max_speed` | `0.3` | 最大速度，单位 m/s |
 | `autonomy_speed` | `0.3` | 自主模式速度，单位 m/s |
-| `vehicle_length` | `0.6` | 车辆长度，单位 m |
-| `vehicle_width` | `0.6` | 车辆宽度，单位 m |
+| `vehicle_length` | `0.9` | 车辆长度，单位 m |
+| `vehicle_width` | `0.9` | 车辆宽度，单位 m |
+| `adjacentRange` | `0.75` | 局部规划点云截取半径及基础路径评估范围，单位 m |
+| `twoWayDrive` | `false` | 是否允许前进和倒车双向行驶 |
+| `maxYawRate` | `20.0` | 最大转向角速度，单位 °/s |
+| `yawRateGain` | `3.0` | 行驶时的转向控制增益 |
+| `stopYawRateGain` | `3.0` | 停止或低速时的转向控制增益 |
+| `viewpoint_collision_z_plus` | `0.3` | 视点上方的碰撞检测余量，单位 m |
+| `viewpoint_collision_z_minus` | `0.25` | 视点下方的碰撞检测余量，单位 m |
 
 例如：
 
 ```bash
-./scripts/run_real.sh a rviz:=true scenario:=indoor max_speed:=0.3 \
-  vehicle_length:=0.6 vehicle_width:=0.6
+./scripts/run_real.sh a autonomy_mode:=true
+```
+
+上述默认值来自实车顶层入口 `real_robot_stack.launch`；直接使用底层 launch 时，默认值可能不同。参数名区分大小写，例如 `adjacentRange` 和 `maxYawRate`。
+
+`viewpoint_collision_z_plus` 和 `viewpoint_collision_z_minus` 是相对于每个视点的上下距离，不是全局点云高度裁剪阈值。实车入口默认覆盖场景 YAML 中的 `kViewPointCollisionMarginZPlus` 和 `kViewPointCollisionMarginZMinus`；如需保留场景配置，可将对应参数设为空字符串：
+
+```bash
+./scripts/run_real.sh a viewpoint_collision_z_plus:="" viewpoint_collision_z_minus:=""
 ```
 
 车辆尺寸、雷达外参和控制参数需按实际平台配置。完成控制接口与停车行为验证后，可添加 `autonomy_mode:=true` 启用自主模式。

@@ -1,5 +1,9 @@
 <launch>
     <arg name="scenario" default="indoor" />
+    <!-- Empty means retain the scenario YAML setting. Distances are metres
+         relative to each viewpoint, not global point-cloud height limits. -->
+    <arg name="viewpoint_collision_z_plus" default="" />
+    <arg name="viewpoint_collision_z_minus" default="" />
     <arg name="rviz" default="true" />
     <arg name="rosbag_record" default="false" />
     <arg name="bag_path" default="~/Desktop" />
@@ -39,6 +43,12 @@
              value="$(find tare_planner)/or-tools/lib/libgflags.so.2.2.2:$(find tare_planner)/or-tools/lib/libglog.so.0.4.0"/>
         <rosparam command="load" file="$(find tare_planner)/config/$(arg scenario).yaml" />
         <rosparam command="load" file="$(find tare_planner)/config/coordination.yaml" />
+        <param if="$(eval arg('viewpoint_collision_z_plus') != '')"
+               name="kViewPointCollisionMarginZPlus" type="double"
+               value="$(arg viewpoint_collision_z_plus)" />
+        <param if="$(eval arg('viewpoint_collision_z_minus') != '')"
+               name="kViewPointCollisionMarginZMinus" type="double"
+               value="$(arg viewpoint_collision_z_minus)" />
         <param name="robot_id" value="$(arg robot_id)" />
         <param name="kRobotNum" value="$(arg robot_num)" />
         <param name="kTestID" value="$(arg test_id)" type="str"/>
